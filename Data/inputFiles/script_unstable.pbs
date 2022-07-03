@@ -1,0 +1,33 @@
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=36
+#PBS -l walltime=01:00:00
+#PBS -A lp_abl_simulation
+#PBS -N 0607
+# PBS -m a			
+# PBS -M gunther.bijloos@sckcen.be
+
+# Set the correct environment
+ cd $VSC_SCRATCH/PPG
+ heff=0.46
+
+ QValues=(77.8 89.5 89.9 91.1 92.0 92.1 95.9 99.1 95.5 93.0 101.8 101.2 101.4 97.6 98.8 98.4 96.0 94.7 97.4 98.9 100.7 100.8 104.1 102.0 102.8 102.4 101.5 102.1 102.1)
+ expNr=(5 6 7 8 9 10 11 12 15 16 19 20 25 26 27 30 31 33 34 43 44 45 48 49 50 51 57 61 62)
+ mkdir output
+ cp case.orig/modelParamList.txt .
+ cp case.orig/stationCoord.txt .
+ cp case.orig/meteo5606.txt .
+ for i in "${QValues[@]}"
+ do
+    cp case.orig/inputDict .
+    sed -i "s/<Q>/$i/" inputDict
+    sed -i "s/<heff>/$heff/" inputDict
+    $VSC_DATA/MATLAB/Scripts/PrairieGrass/genInputFiles ${expNr[$count]} $heff
+    mpirun -np $PBS_NP $VSC_DATA/C++/fastPM/fastConcV3 -Langevin  
+    cp output/CONC* $VSC_DATA/MATLAB/Output/PPG/convStudy/unstable/conc_exp${expNr[$count]}.txt
+    rm output/*
+    rm inputDict
+    count=`expr $count + 1`
+ done
+# cp output/CONC_meteo5606.txt $VSC_DATA/MATLAB/Output/PPG/conc_wDirFluc/conc_exp40.txt
+# mpirun -np $PBS_NP $VSC_DATA/C++/fastPM/slowConc -Langevin -prodKernel
+
