@@ -1,7 +1,6 @@
 #!/bin/bash -l
 #PBS -l nodes=1:ppn=1
 #PBS -l walltime=02:00:00
-#PBS -A lp_abl_simulation
 #PBS -N 0607
 
 # Set the correct environment
