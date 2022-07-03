@@ -10,9 +10,8 @@ function [FB,FBfp,FBfn,NMSE,FAC2,FAC10,n]=predSkill()
  noCases = length(caseList);
  MR = zeros(noCases*5,1);
  for k = 1:noCases
-  Cp_ = readFile(strcat(wrkDir,'conc_exp',num2str(caseList(k)),'.txt'),0,3); Cp_ = Cp_(:,3); %Cp_ = Cp_(1:(end-54),3); %Cp_ = Cp_(:,3); 
+  Cp_ = readFile(strcat(wrkDir,'conc_exp',num2str(caseList(k)),'.txt'),0,3); Cp_ = Cp_(:,3); %Cp_ = Cp_(1:(end-54),3);
   Cp = [Cp;Cp_];
-%  Cm_ = readFile(strcat(wrkDir,'unstable_old/np1e3_dt0.01/new_dt/conc_exp',num2str(caseList(k)),'.txt'),0,3);
 
   Cm_ = PGConc(caseList(k),true,{wrkDir}); 
   Cm = [Cm;Cm_];
