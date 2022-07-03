@@ -1,10 +1,7 @@
 #!/bin/bash -l
 #PBS -l nodes=1:ppn=36
 #PBS -l walltime=01:00:00
-#PBS -A lp_abl_simulation
 #PBS -N 0607
-# PBS -m a			
-# PBS -M gunther.bijloos@sckcen.be
 
 # Set the correct environment
  cd $VSC_SCRATCH/PPG
